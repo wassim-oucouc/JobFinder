@@ -1,0 +1,19 @@
+<div class="min-h-screen flex flex-col lg:flex-row bg-gray-50">
+  <!-- Sidebar (Desktop uniquement) -->
+  <aside class="hidden lg:flex lg:w-2/5 xl:w-1/2">
+    <app-auth-sidebar></app-auth-sidebar>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="flex flex-col flex-1">
+    <!-- Formulaire de register -->
+    <main class="flex-1 flex items-center justify-center p-6 lg:p-12">
+      <app-register-form></app-register-form>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t bg-white">
+      <app-auth-footer></app-auth-footer>
+    </footer>
+  </div>
+</div>
