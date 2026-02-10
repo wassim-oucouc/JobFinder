@@ -1,0 +1,18 @@
+
+<div class="min-h-screen flex flex-col bg-gray-50">
+  <!-- Contenu principal -->
+  <div class="flex flex-1">
+    <!-- Sidebar -->
+    <aside class="hidden lg:block lg:w-1/3 bg-white border-r">
+      <app-auth-sidebar></app-auth-sidebar>
+    </aside>
+    <!-- Formulaire de login -->
+    <main class="flex flex-1 items-center justify-center p-6">
+      <app-login-form></app-login-form>
+    </main>
+  </div>
+  <!-- Footer -->
+  <footer class="border-t bg-white">
+    <app-auth-footer></app-auth-footer>
+  </footer>
+</div>
