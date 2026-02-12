@@ -1,5 +1,6 @@
-export interface job
+export interface Job
 {
+  id : number,
   contents : string
   name : string,
   type : string,

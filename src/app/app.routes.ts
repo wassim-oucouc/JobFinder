@@ -4,6 +4,7 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {LoginFormComponent} from './core/features/auth/components/login-form/login-form.component';
 import {RegisterComponent} from './core/features/auth/pages/register/register.component';
+import {JobsComponent} from './core/features/jobs/pages/jobs/jobs.component';
 
 export const routes: Routes = [
   {
@@ -13,10 +14,10 @@ export const routes: Routes = [
   {
     path : 'register',
     component : RegisterComponent
+  },
+  {
+    path : 'jobs',
+    component : JobsComponent
   }
 ];
-  @NgModule({
-    imports: [BrowserModule, RouterModule.forRoot(routes)],
-    exports: [RouterModule],
-  })
-  export class RoutingModule {}
+
