@@ -57,26 +57,10 @@
       </p>
 
       <!-- Search Bar (decorative) -->
-      <div class="max-w-2xl mx-auto">
-        <div class="relative group">
-          <div class="absolute -inset-0.5 bg-gradient-to-r from-blue-400 to-sky-400 rounded-2xl opacity-20 group-hover:opacity-30 blur transition duration-300"></div>
-          <div class="relative flex items-center bg-white/80 backdrop-blur-xl border border-gray-200 rounded-2xl p-2 shadow-xl shadow-blue-100/50 focus-within:border-blue-400 focus-within:shadow-blue-200/50 transition-all duration-300">
-            <svg class="w-6 h-6 text-gray-400 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-            </svg>
-            <input
-              type="text"
-              placeholder="Rechercher un poste, une entreprise..."
-              class="flex-1 bg-transparent border-none px-4 py-4 text-gray-900 placeholder-gray-400 focus:outline-none text-lg"
-            />
-            <button class="bg-gradient-to-r from-blue-600 to-sky-600 hover:from-blue-500 hover:to-sky-500 text-white px-8 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/50">
-              Rechercher
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+
   </div>
+
+  <app-jobs-filter (valueChange) = "receiveDataInput($event)" [availableCompanies]="companies" [availableLocations] = "localisations"></app-jobs-filter>
 
   <!-- ===== JOB LISTINGS CONTAINER ===== -->
   <div class="job-listings-container max-w-7xl mx-auto px-6 pb-20">
