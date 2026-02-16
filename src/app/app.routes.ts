@@ -6,6 +6,7 @@ import {LoginFormComponent} from './core/features/auth/components/login-form/log
 import {RegisterComponent} from './core/features/auth/pages/register/register.component';
 import {JobsComponent} from './core/features/jobs/pages/jobs/jobs.component';
 import {CandidaturePageComponent} from './core/features/candidature/pages/candidature-page/candidature-page.component';
+import {ProfileEditComponent} from './core/features/profile/pages/profile-edit/profile-edit.component';
 
 export const routes: Routes = [
   {
@@ -23,6 +24,10 @@ export const routes: Routes = [
   {
     path : 'candidatures',
     component : CandidaturePageComponent
+  },
+  {
+    path: 'profile/edit',
+    component : ProfileEditComponent
   }
 ];
 

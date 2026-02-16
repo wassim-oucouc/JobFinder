@@ -5,6 +5,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {JobsFilterComponent} from '../jobs-filter/jobs-filter.component';
 import {JobsHeroSectionComponent} from '../jobs-hero-section/jobs-hero-section.component';
+import {LocalStorageService} from '../../../../services/localstorage-service/local-storage.service';
 
 @Component({
   selector: 'app-jobs-list',
@@ -25,7 +26,7 @@ export class JobsListComponent implements OnInit {
   totalPages: number = 99;
 
 
-  constructor(private jobService : JobServiceService,private router : Router, private route: ActivatedRoute) {
+  constructor(private jobService : JobServiceService,private router : Router, private route: ActivatedRoute,private localStorage: LocalStorageService) {
 
   }
 
@@ -110,6 +111,12 @@ export class JobsListComponent implements OnInit {
 
 
     console.log("this job found", this.jobs);
+  }
+
+
+  getAuthenticated():boolean
+  {
+    return this.localStorage.getAuthenticated();
   }
 
   previousPage()

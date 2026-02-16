@@ -13,6 +13,15 @@ export class LocalStorageService {
     localStorage.setItem('user',JSON.stringify(user));
   }
 
+  getAuthenticated():boolean {
+    const userJson = localStorage.getItem(('user'));
+    if (!userJson) return false;
+    else
+    {
+      return true;
+    }
+  }
+
   removeUser()
   {
     localStorage.removeItem('user');
