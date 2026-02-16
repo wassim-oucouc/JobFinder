@@ -5,6 +5,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {LoginFormComponent} from './core/features/auth/components/login-form/login-form.component';
 import {RegisterComponent} from './core/features/auth/pages/register/register.component';
 import {JobsComponent} from './core/features/jobs/pages/jobs/jobs.component';
+import {CandidaturePageComponent} from './core/features/candidature/pages/candidature-page/candidature-page.component';
 
 export const routes: Routes = [
   {
@@ -18,6 +19,10 @@ export const routes: Routes = [
   {
     path : 'jobs',
     component : JobsComponent
+  },
+  {
+    path : 'candidatures',
+    component : CandidaturePageComponent
   }
 ];
 

@@ -4,11 +4,12 @@ import {Job} from '../../../../model/Job';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {JobsFilterComponent} from '../jobs-filter/jobs-filter.component';
+import {JobsHeroSectionComponent} from '../jobs-hero-section/jobs-hero-section.component';
 
 @Component({
   selector: 'app-jobs-list',
   standalone : true,
-  imports: [CommonModule,JobsFilterComponent],
+  imports: [CommonModule,JobsFilterComponent,JobsHeroSectionComponent],
   templateUrl: './jobs-list.component.html',
   styleUrls: ['./jobs-list.component.css']
 })
@@ -63,16 +64,44 @@ export class JobsListComponent implements OnInit {
     }
   }
 
-  receiveDataInput($event: any)
+  receiveSelectedOptions(filtersValid: { company: string; location: string; level: string })
   {
-    const value = $event.target.value?.toLowerCase() || '';
-    if($event.target.value.empty || $event.target.value.length < 1)
+
+    if (
+      (!filtersValid.company || filtersValid.company === "") &&
+      (!filtersValid.location || filtersValid.location === "") &&
+      (!filtersValid.level || filtersValid.level === "")
+    )
+    {console.log("hello")
+      this.getJobsPaginated();
+      return;
+    }
+
+    console.log(filtersValid);
+
+
+      this.jobs = this.alljobs.filter(job =>{
+      return job.locations[0].name.toLowerCase().includes(<string>filtersValid.location.toLowerCase()) &&
+        job.company.name.toLowerCase().includes(<string>filtersValid.company.toLowerCase()) &&
+        job.levels[0].name.toLowerCase().includes(<string>filtersValid.level.toLowerCase())
+    });
+
+      this.totalJobs = this.jobs.length;
+
+
+
+  }
+
+  receiveDataInput(searchValue: string)
+  {
+    const value = (searchValue || "").toLowerCase().trim();
+    if(!value || value.length < 1)
     {
       this.jobs = this.alljobs;
       this.getJobsPaginated();
     }
 
-    console.log($event.target.value);
+    console.log(value);
    this.jobs = this.alljobs.filter(job => {
    return   job.name.toLowerCase().includes(value);
     });
@@ -96,9 +125,6 @@ export class JobsListComponent implements OnInit {
 
 
   }
-
-
-
 
 
 }

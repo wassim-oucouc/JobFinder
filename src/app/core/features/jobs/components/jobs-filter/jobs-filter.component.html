@@ -21,6 +21,8 @@
           type="text"
           placeholder="Rechercher par titre de poste (ex: Développeur, Manager...)"
           class="flex-1 bg-transparent border-none px-4 py-4 text-gray-900 placeholder-gray-400 focus:outline-none text-base md:text-lg"
+          [(ngModel)]="searchValue"
+
           (change)="searchKeyword($event)"
           (keyup.enter)="onSearch()"
         />

@@ -22,6 +22,7 @@ export class RegisterFormComponent {
   errorMessage : String = ""
 
   userCreation: User = {
+    id: 0,
     Nom: '',
     Prenom: '',
     Email: '',

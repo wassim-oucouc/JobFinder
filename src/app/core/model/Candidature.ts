@@ -1,5 +1,6 @@
  export interface Candidature
 {
+  id: number;
   userId : number,
   offerId : number,
   apiSource : string,

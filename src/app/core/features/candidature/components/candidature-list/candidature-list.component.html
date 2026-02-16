@@ -1,0 +1,86 @@
+<!-- src/app/components/candidature-list/candidature-list.component.html -->
+
+<div class="candidature-list py-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <!-- Search and Sort Bar -->
+    <div class="mb-6 flex flex-col sm:flex-row gap-4 items-center justify-between">
+
+
+
+
+
+        <!-- Sort Dropdown Menu -->
+        <div *ngIf="showSortDropdown"
+             class="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-200 z-10 overflow-hidden">
+          <button
+            (click)="onSortChange('date_desc')"
+            class="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200"
+            [class.bg-blue-50]="sortBy === 'date_desc'"
+            [class.text-blue-700]="sortBy === 'date_desc'">
+            Plus récentes d'abord
+          </button>
+          <button
+            (click)="onSortChange('date_asc')"
+            class="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200"
+            [class.bg-blue-50]="sortBy === 'date_asc'"
+            [class.text-blue-700]="sortBy === 'date_asc'">
+            Plus anciennes d'abord
+          </button>
+          <button
+            (click)="onSortChange('company')"
+            class="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200"
+            [class.bg-blue-50]="sortBy === 'company'"
+            [class.text-blue-700]="sortBy === 'company'">
+            Par entreprise (A-Z)
+          </button>
+          <button
+            (click)="onSortChange('status')"
+            class="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200"
+            [class.bg-blue-50]="sortBy === 'status'"
+            [class.text-blue-700]="sortBy === 'status'">
+            Par statut
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="candidatures.length === 0" class="text-center py-16">
+      <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 mb-4">
+        <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+        </svg>
+      </div>
+      <h3 class="text-lg font-semibold text-gray-900 mb-2">Aucune candidature trouvée</h3>
+      <p class="text-gray-500 mb-6">
+        <span *ngIf="searchTerm">Essayez de modifier vos critères de recherche.</span>
+      </p>
+      <a
+        *ngIf="!searchTerm"
+        routerLink="/jobs"
+        class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-all duration-300">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+        Rechercher des offres
+      </a>
+    </div>
+
+    <!-- Candidatures Grid -->
+    <div *ngIf="candidatures.length > 0" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <app-candidature-card
+        *ngFor="let candidature of candidatures"
+        [candidature]="candidature"
+        (onDeleted) = "onCandidatureDeleted($event)">
+      </app-candidature-card>
+    </div>
+
+    <!-- Results Count -->
+    <div *ngIf="candidatures.length > 0" class="mt-6 text-center text-sm text-gray-500">
+      {{filteredCandidatures.length}} candidature<span *ngIf="filteredCandidatures.length > 1">s</span> affichée<span *ngIf="filteredCandidatures.length > 1">s</span>
+      <span *ngIf="searchTerm"> pour "{{searchTerm}}"</span>
+    </div>
+
+  </div>

@@ -14,59 +14,83 @@ export class JobsFilterComponent {
 
   @Input() availableCompanies: string[] = [];
 
-  @Input() availableLevels: string[] = ["Senior Level","Mid Level","Entry Level"];
+  @Input() availableLevels: string[] = ["Senior Level", "Mid Level", "Entry Level"];
 
-@Input() availableLocations : string[] = [];
+  @Input() availableLocations: string[] = [];
 
-@Output() valueChange: EventEmitter<string> = new EventEmitter();
+  @Output() valueChange: EventEmitter<string> = new EventEmitter();
 
-  selectedLevel : string = '';
+  filtersValidated: any = {
+    level: "",
+    location: "",
+    company: "",
+  };
 
-  selectedLocation : string = '';
+  searchValue: string = "";
 
-  selectedCompany : string = '';
+  @Output() filterChange: EventEmitter<any> = new EventEmitter();
 
+  selectedLevel: string = '';
 
-  isSearchActive : boolean = false;
+  selectedLocation: string = '';
 
-
-
-
-
-  onSearch(){
-
-  }
-
-  searchKeyword($event : any)
-  {
-    console.log($event.target.value);
-    this.valueChange.emit($event);
-  }
+  selectedCompany: string = '';
 
 
-  clearSearch()
-  {
+  isSearchActive: boolean = false;
 
+
+  onSearch() {
+    this.valueChange.emit(this.searchValue);
   }
 
 
+  searchKeyword($event: any) {
+    this.searchValue = ($event.target as HTMLInputElement).value;
+    this.valueChange.emit(this.searchValue)
+  }
 
 
+  clearSearch() {
+    this.searchValue = "";
 
-
-  onFilterChange(){
+    this.valueChange.emit(this.searchValue);
 
   }
 
-  applyFilters()
-  {
+
+  onFilterChange() {
+
+    this.filtersValidated.company = this.selectedCompany;
+    this.filtersValidated.location = this.selectedLocation;
+    this.filtersValidated.level = this.selectedLevel;
+
+    this.filterChange.emit(this.filtersValidated);
+
 
   }
 
-  resetFilters()
-  {
+  applyFilters() {
+    this.filtersValidated.company = this.selectedCompany;
+    this.filtersValidated.location = this.selectedLocation;
+    this.filtersValidated.level = this.selectedLevel;
+
+    this.filterChange.emit(this.filtersValidated);
+  }
+
+  resetFilters() {
+
+    this.selectedCompany = "";
+    this.selectedLevel = "";
+    this.selectedLocation= "";
+
+    this.filterChange.emit({company: this.selectedCompany,
+      location: this.selectedLocation,
+      level: this.selectedLevel});
+
 
   }
+
 
 
 

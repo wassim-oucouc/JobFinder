@@ -10,17 +10,17 @@ export class LocalStorageService {
 
   addUser(user : User)
   {
-    localStorage.setItem(String(user.Email),JSON.stringify(user));
+    localStorage.setItem('user',JSON.stringify(user));
   }
 
-  removeUser(email : string)
+  removeUser()
   {
-    localStorage.removeItem(String(email));
+    localStorage.removeItem('user');
   }
 
-  getUser(email : string) : any
+  getUser() : any
   {
-    const userJson = localStorage.getItem(String(email));
+    const userJson = localStorage.getItem(('user'));
     if (!userJson) return null;
 
     try {
@@ -30,4 +30,5 @@ export class LocalStorageService {
       return null;
     }
   }
+
 }
