@@ -1,0 +1,168 @@
+
+
+<div class="search-filter-container max-w-7xl mx-auto px-6 mb-8">
+
+  <!-- Main Search Bar -->
+  <div class="main-search-wrapper mb-6">
+    <div class="relative group">
+      <!-- Glow effect -->
+      <div class="absolute -inset-0.5 bg-gradient-to-r from-blue-400 to-sky-400 rounded-2xl opacity-20 group-hover:opacity-30 blur transition duration-300"></div>
+
+      <!-- Search Input -->
+      <div class="relative flex items-center bg-white border border-gray-200 rounded-2xl p-2 shadow-xl shadow-blue-100/50 focus-within:border-blue-400 focus-within:shadow-blue-200/50 transition-all duration-300">
+
+        <!-- Search Icon -->
+        <svg class="w-6 h-6 text-gray-400 ml-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+
+        <!-- Input Field -->
+        <input
+          type="text"
+          placeholder="Rechercher par titre de poste (ex: Développeur, Manager...)"
+          class="flex-1 bg-transparent border-none px-4 py-4 text-gray-900 placeholder-gray-400 focus:outline-none text-base md:text-lg"
+          [(ngModel)]="searchValue"
+
+          (change)="searchKeyword($event)"
+          (keyup.enter)="onSearch()"
+        />
+
+        <!-- Clear Button (si recherche active) -->
+        <button
+          *ngIf="searchKeyword.length > 0"
+          class="text-gray-400 hover:text-gray-600 px-3 transition-colors duration-200"
+          (click)="clearSearch()">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+
+        <!-- Search Button -->
+        <button
+          class="bg-gradient-to-r from-blue-600 to-sky-600 hover:from-blue-500 hover:to-sky-500 text-white px-6 md:px-8 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/50 flex items-center gap-2"
+          (click)="onSearch()">
+          <span class="hidden sm:inline">Rechercher</span>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Search Info -->
+    <div class="flex items-center justify-between mt-3 px-2">
+      <p class="text-sm text-gray-500">
+        <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        La recherche s'effectue uniquement dans les <strong class="text-gray-700">titres des offres</strong>
+      </p>
+
+      <!-- Active Search Indicator -->
+      <span
+        *ngIf="isSearchActive"
+        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-sm font-medium text-blue-700">
+        <svg class="w-4 h-4 animate-pulse" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+        </svg>
+        Recherche active
+      </span>
+    </div>
+  </div>
+
+  <!-- Advanced Filters Section (Collapsible) -->
+  <div class="advanced-filters-section">
+
+    <!-- Toggle Button -->
+
+    <!-- Filters Panel (Collapsible) -->
+
+      <div class="bg-white border border-gray-200 rounded-xl p-6 space-y-6">
+
+        <!-- Filter Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+          <!-- Location Filter -->
+          <div class="filter-group">
+            <label class="block text-sm font-semibold text-gray-700 mb-2">
+              <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              </svg>
+              Localisation
+            </label>
+            <select
+              class="w-full bg-gray-50 border border-gray-200 text-gray-900 px-4 py-3 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all duration-300 cursor-pointer hover:border-gray-300"
+              [(ngModel)]="selectedLocation"
+              (change)="onFilterChange()">
+              <option value="">Toutes les localisations</option>
+              <option *ngFor="let location of availableLocations" [value]="location">
+                {{location}}
+              </option>
+            </select>
+          </div>
+
+          <!-- Level Filter -->
+          <div class="filter-group">
+            <label class="block text-sm font-semibold text-gray-700 mb-2">
+              <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+              </svg>
+              Niveau
+            </label>
+            <select
+              class="w-full bg-gray-50 border border-gray-200 text-gray-900 px-4 py-3 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all duration-300 cursor-pointer hover:border-gray-300"
+              [(ngModel)]="selectedLevel"
+              (change)="onFilterChange()">
+              <option value="">Tous les niveaux</option>
+              <option *ngFor="let level of availableLevels" [value]="level">
+                {{level}}
+              </option>
+            </select>
+          </div>
+
+          <!-- Company Filter -->
+          <div class="filter-group">
+            <label class="block text-sm font-semibold text-gray-700 mb-2">
+              <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+              </svg>
+              Entreprise
+            </label>
+            <select
+              class="w-full bg-gray-50 border border-gray-200 text-gray-900 px-4 py-3 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all duration-300 cursor-pointer hover:border-gray-300"
+              [(ngModel)]="selectedCompany"
+              (change)="onFilterChange()">
+              <option value="">Toutes les entreprises</option>
+              <option *ngFor="let company of availableCompanies">
+                {{company}}
+              </option>
+            </select>
+          </div>
+
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row gap-3 pt-4">
+          <button
+            class="flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-sky-600 text-white font-semibold hover:from-blue-500 hover:to-sky-500 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/50"
+            (click)="applyFilters()">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            Appliquer les filtres
+          </button>
+          <button
+            class="flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white border border-gray-200 text-gray-700 font-medium hover:bg-gray-50 hover:border-gray-300 transition-all duration-300"
+            (click)="resetFilters()">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+            </svg>
+            Réinitialiser
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>

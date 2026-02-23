@@ -1,0 +1,120 @@
+<!-- Favorites Page -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+
+  <!-- Header -->
+  <div class="bg-white border-b border-gray-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-6 py-8">
+      <div class="flex items-center gap-4">
+        <div class="w-12 h-12 bg-gradient-to-br from-red-400 to-pink-500 rounded-2xl flex items-center justify-center shadow-lg">
+          <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-3xl font-bold text-gray-900">Offres Sauvegardées</h1>
+          <p class="text-gray-500 mt-1">
+            <ng-container *ngIf="favorites$ | async as favs">
+              {{ favs.length }} offre{{ favs.length !== 1 ? 's' : '' }} sauvegardée{{ favs.length !== 1 ? 's' : '' }}
+            </ng-container>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="max-w-7xl mx-auto px-6 py-12">
+
+    <ng-container *ngIf="favorites$ | async as favs">
+
+      <!-- Empty State -->
+      <div *ngIf="favs.length === 0" class="text-center py-24">
+        <div class="w-24 h-24 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-6">
+          <svg class="w-12 h-12 text-red-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+          </svg>
+        </div>
+        <h3 class="text-2xl font-bold text-gray-900 mb-3">Aucun favori pour l'instant</h3>
+        <p class="text-gray-500 mb-8 max-w-md mx-auto">
+          Parcourez les offres et cliquez sur le cœur pour sauvegarder les opportunités qui vous intéressent.
+        </p>
+        <a routerLink="/jobs"
+           class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-sky-600 text-white font-semibold hover:from-blue-500 hover:to-sky-500 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/40 hover:-translate-y-0.5">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+          Parcourir les offres
+        </a>
+      </div>
+
+      <!-- Favorites Grid -->
+      <div *ngIf="favs.length > 0" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div *ngFor="let fav of favs" class="group relative">
+
+          <!-- Glow effect -->
+          <div class="absolute -inset-0.5 bg-gradient-to-r from-red-400 to-pink-400 rounded-2xl opacity-0 group-hover:opacity-20 blur transition duration-500"></div>
+
+          <!-- Card -->
+          <div class="relative bg-white border border-gray-200 rounded-2xl p-7 hover:border-red-200 hover:shadow-xl hover:shadow-red-100/40 transition-all duration-500 hover:-translate-y-1">
+
+            <!-- Remove button -->
+            <button (click)="removeFavorite(fav.offerId)"
+                    title="Retirer des favoris"
+                    class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white border border-gray-200 hover:border-red-400 hover:bg-red-50 flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-sm group/rm">
+              <svg class="w-5 h-5 text-red-400 group-hover/rm:text-red-600" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+              </svg>
+            </button>
+
+            <!-- Job Title -->
+            <h2 class="text-xl font-bold text-gray-900 mb-2 pr-12 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-red-600 group-hover:to-pink-600 group-hover:bg-clip-text transition-all duration-300">
+              {{ fav.title }}
+            </h2>
+
+            <!-- Company -->
+            <div class="flex items-center gap-2 mb-4">
+              <div class="w-8 h-8 bg-gradient-to-br from-indigo-100 to-indigo-200 rounded-lg flex items-center justify-center text-indigo-600 font-bold text-xs">
+                {{ fav.company.charAt(0).toUpperCase() }}
+              </div>
+              <span class="text-gray-700 font-medium">{{ fav.company }}</span>
+            </div>
+
+            <!-- Meta info -->
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-50 border border-gray-200 text-gray-600 text-sm">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                {{ fav.location }}
+              </span>
+
+              <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-50 border border-red-100 text-red-600 text-sm font-medium">
+                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                </svg>
+                Sauvegardée
+              </span>
+            </div>
+
+            <!-- Action -->
+            <div class="flex gap-3">
+              <a routerLink="/jobs"
+                 class="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-sky-600 text-white text-sm font-semibold hover:from-blue-500 hover:to-sky-500 transition-all duration-300 hover:shadow-md hover:shadow-blue-500/30">
+                Voir similaires
+              </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </ng-container>
+  </div>
+
+</div>
