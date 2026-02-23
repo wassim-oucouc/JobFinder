@@ -1,33 +1,47 @@
-import {RouterModule, Routes} from '@angular/router';
-import {LoginComponent} from './core/features/auth/pages/login/login.component';
-import {NgModule} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
-import {LoginFormComponent} from './core/features/auth/components/login-form/login-form.component';
-import {RegisterComponent} from './core/features/auth/pages/register/register.component';
-import {JobsComponent} from './core/features/jobs/pages/jobs/jobs.component';
-import {CandidaturePageComponent} from './core/features/candidature/pages/candidature-page/candidature-page.component';
-import {ProfileEditComponent} from './core/features/profile/pages/profile-edit/profile-edit.component';
+import { Routes } from '@angular/router';
+import { LoginComponent } from './core/features/auth/pages/login/login.component';
+import { RegisterComponent } from './core/features/auth/pages/register/register.component';
+import { JobsComponent } from './core/features/jobs/pages/jobs/jobs.component';
+import { CandidaturePageComponent } from './core/features/candidature/pages/candidature-page/candidature-page.component';
+import { ProfileEditComponent } from './core/features/profile/pages/profile-edit/profile-edit.component';
+import { FavoritesPageComponent } from './core/features/favorites/pages/favorites-page/favorites-page.component';
+import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   {
-    path :"login",
-    component : LoginComponent
+    path: '',
+    redirectTo: 'jobs',
+    pathMatch: 'full'
   },
   {
-    path : 'register',
-    component : RegisterComponent
+    path: 'login',
+    component: LoginComponent
   },
   {
-    path : 'jobs',
-    component : JobsComponent
+    path: 'register',
+    component: RegisterComponent
   },
   {
-    path : 'candidatures',
-    component : CandidaturePageComponent
+    path: 'jobs',
+    component: JobsComponent
+  },
+  {
+    path: 'candidatures',
+    component: CandidaturePageComponent,
+    canActivate: [authGuard]
   },
   {
     path: 'profile/edit',
-    component : ProfileEditComponent
+    component: ProfileEditComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'favorites',
+    component: FavoritesPageComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: '**',
+    redirectTo: 'login'
   }
 ];
-

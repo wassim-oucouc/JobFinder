@@ -43,10 +43,11 @@
 
   <app-jobs-hero-section></app-jobs-hero-section>
 
-      <!-- Search Bar (decorative) -->
+  <!-- Search Bar (decorative) -->
 
 
-  <app-jobs-filter (valueChange) = "receiveDataInput($event)" [availableCompanies]="companies" [availableLocations] = "localisations" (filterChange) = "receiveSelectedOptions($event)"></app-jobs-filter>
+  <app-jobs-filter (valueChange)="receiveDataInput($event)" [availableCompanies]="companies"
+    [availableLocations]="localisations" (filterChange)="receiveSelectedOptions($event)"></app-jobs-filter>
 
   <!-- ===== JOB LISTINGS CONTAINER ===== -->
   <div class="job-listings-container max-w-7xl mx-auto px-6 pb-20">
@@ -62,7 +63,8 @@
 
       <div class="sort-section flex items-center gap-3">
         <label class="sort-label text-gray-600 text-sm font-medium">Trier par:</label>
-        <select class="sort-select bg-white border border-gray-200 text-gray-900 px-4 py-2.5 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all duration-300 cursor-pointer hover:border-gray-300 shadow-sm">
+        <select
+          class="sort-select bg-white border border-gray-200 text-gray-900 px-4 py-2.5 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all duration-300 cursor-pointer hover:border-gray-300 shadow-sm">
           <option value="recent">Plus récentes</option>
           <option value="salary">Salaire</option>
           <option value="relevance">Pertinence</option>
@@ -79,27 +81,40 @@
         <div class="job-card-inner relative">
 
           <!-- Glow effect on hover -->
-          <div class="absolute -inset-0.5 bg-gradient-to-r from-blue-400 to-sky-400 rounded-2xl opacity-0 group-hover:opacity-20 blur transition duration-500"></div>
+          <div
+            class="absolute -inset-0.5 bg-gradient-to-r from-blue-400 to-sky-400 rounded-2xl opacity-0 group-hover:opacity-20 blur transition duration-500">
+          </div>
 
           <!-- Card content -->
-          <div class="relative bg-white border border-gray-200 rounded-2xl p-8 hover:border-blue-300 hover:shadow-xl hover:shadow-blue-100/50 transition-all duration-500 hover:-translate-y-1">
+          <div
+            class="relative bg-white border border-gray-200 rounded-2xl p-8 hover:border-blue-300 hover:shadow-xl hover:shadow-blue-100/50 transition-all duration-500 hover:-translate-y-1">
 
             <!-- Top Actions Bar -->
             <div class="absolute top-4 right-4 flex gap-2 z-10">
 
               <!-- Favorite Button -->
-              <button class="w-10 h-10 rounded-full bg-white border border-gray-200 hover:border-red-300 hover:bg-red-50 flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-sm hover:shadow-md group/fav"
-                      title="Ajouter aux favoris">
-                <svg class="w-5 h-5 text-gray-400 group-hover/fav:text-red-500 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+              <button (click)="toggleFavorite(job)" [class.border-red-300]="isFavorite(job.id)"
+                [class.bg-red-50]="isFavorite(job.id)" [class.border-gray-200]="!isFavorite(job.id)"
+                class="w-10 h-10 rounded-full bg-white flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-sm hover:shadow-md border group/fav hover:border-red-300 hover:bg-red-50"
+                [title]="isFavorite(job.id) ? 'Retirer des favoris' : 'Ajouter aux favoris'">
+                <svg class="w-5 h-5 transition-colors duration-300"
+                  [attr.fill]="isFavorite(job.id) ? '#ef4444' : 'none'" [class.text-red-500]="isFavorite(job.id)"
+                  [class.text-gray-400]="!isFavorite(job.id)" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z">
+                  </path>
                 </svg>
               </button>
 
               <!-- Track Application Button -->
-              <button *ngIf="getAuthenticated()" class="w-10 h-10 rounded-full bg-white border border-gray-200 hover:border-purple-300 hover:bg-purple-50 flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-sm hover:shadow-md group/track"
-                      title="Suivre la candidature">
-                <svg class="w-5 h-5 text-gray-400 group-hover/track:text-purple-500 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+              <button *ngIf="getAuthenticated()"
+                class="w-10 h-10 rounded-full bg-white border border-gray-200 hover:border-purple-300 hover:bg-purple-50 flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-sm hover:shadow-md group/track"
+                title="Suivre la candidature">
+                <svg class="w-5 h-5 text-gray-400 group-hover/track:text-purple-500 transition-colors duration-300"
+                  fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4">
+                  </path>
                 </svg>
               </button>
 
@@ -110,42 +125,48 @@
               <div class="job-title-section">
 
                 <!-- Job Title -->
-                <h2 class="job-title text-2xl md:text-3xl font-bold text-gray-900 mb-4 pr-24 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-sky-600 group-hover:bg-clip-text transition-all duration-300">
+                <h2
+                  class="job-title text-2xl md:text-3xl font-bold text-gray-900 mb-4 pr-24 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-sky-600 group-hover:bg-clip-text transition-all duration-300">
                   {{job.name}}
                 </h2>
 
                 <!-- Company Info -->
                 <div class="company-info flex items-center gap-3 mb-5">
-            <span class="company-name text-lg text-gray-700 font-medium flex items-center gap-2">
-              {{job.company.name}}
-              <span class="verified-badge inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                </svg>
-                Vérifiée
-              </span>
-            </span>
+                  <span class="company-name text-lg text-gray-700 font-medium flex items-center gap-2">
+                    {{job.company.name}}
+                    <span
+                      class="verified-badge inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                      <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                          clip-rule="evenodd"></path>
+                      </svg>
+                      Vérifiée
+                    </span>
+                  </span>
                 </div>
 
                 <!-- Job Meta Info -->
                 <div class="job-meta flex flex-wrap gap-3 mb-5">
 
                   <!-- Location -->
-                  <span class="meta-item location inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-50 border border-gray-200 text-gray-700 text-sm font-medium">
-              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                <circle cx="12" cy="10" r="3"></circle>
-              </svg>
+                  <span
+                    class="meta-item location inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-50 border border-gray-200 text-gray-700 text-sm font-medium">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                      <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
                     {{job.locations[0].name}}
-            </span>
+                  </span>
 
                   <!-- Level -->
-                  <span class="meta-item level inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-50 border border-blue-200 text-blue-700 text-sm font-semibold">
-              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-              </svg>
+                  <span
+                    class="meta-item level inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-50 border border-blue-200 text-blue-700 text-sm font-semibold">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                    </svg>
                     {{job.levels[0].name}}
-            </span>
+                  </span>
 
                 </div>
               </div>
@@ -159,7 +180,8 @@
             <!-- Posted Date -->
             <div class="posted-date flex items-center gap-2 text-xs text-gray-500 mb-6">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
               </svg>
               <span class="posted-label font-medium">Publié le</span>
               <span>{{job.publication_date}}</span>
@@ -169,17 +191,23 @@
             <div class="job-actions flex flex-col sm:flex-row gap-3">
 
               <!-- Toggle Button -->
-              <button class="btn btn-toggle flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gray-50 border border-gray-200 text-gray-700 font-medium hover:bg-gray-100 hover:border-gray-300 hover:text-gray-900 transition-all duration-300 group/btn" onclick="toggleJobDescription(this)">
-                <svg class="w-5 h-5 group-hover/btn:translate-y-0.5 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <button
+                class="btn btn-toggle flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gray-50 border border-gray-200 text-gray-700 font-medium hover:bg-gray-100 hover:border-gray-300 hover:text-gray-900 transition-all duration-300 group/btn"
+                onclick="toggleJobDescription(this)">
+                <svg class="w-5 h-5 group-hover/btn:translate-y-0.5 transition-transform duration-300"
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <polyline points="6 9 12 15 18 9"></polyline>
                 </svg>
                 <span>Voir plus</span>
               </button>
 
               <!-- Apply Button -->
-              <a href="{{job.refs.landing_page}}" class="btn btn-primary flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-sky-600 text-white font-semibold hover:from-blue-500 hover:to-sky-500 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/50 group/apply" target="_blank">
+              <a href="{{job.refs.landing_page}}"
+                class="btn btn-primary flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-sky-600 text-white font-semibold hover:from-blue-500 hover:to-sky-500 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/50 group/apply"
+                target="_blank">
                 <span>Postuler</span>
-                <svg class="w-5 h-5 group-hover/apply:translate-x-1 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg class="w-5 h-5 group-hover/apply:translate-x-1 transition-transform duration-300"
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                   <polyline points="15 3 21 3 21 9"></polyline>
                   <line x1="10" y1="14" x2="21" y2="3"></line>
@@ -191,7 +219,7 @@
           </div>
         </div>
       </div>
-          </div>
+    </div>
 
 
 
@@ -202,7 +230,9 @@
       <p class="text-gray-600 mb-8 max-w-md mx-auto">
         Essayez de modifier vos critères de recherche ou vos filtres pour trouver plus d'opportunités.
       </p>
-      <button class="btn-reset inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white border border-gray-200 text-gray-700 font-medium hover:bg-gray-50 hover:border-gray-300 hover:text-gray-900 shadow-sm transition-all duration-300" onclick="resetSearch()">
+      <button
+        class="btn-reset inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white border border-gray-200 text-gray-700 font-medium hover:bg-gray-50 hover:border-gray-300 hover:text-gray-900 shadow-sm transition-all duration-300"
+        onclick="resetSearch()">
         <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <polyline points="1 4 1 10 7 10"></polyline>
           <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
@@ -216,14 +246,17 @@
 
       <!-- Pagination Info -->
       <div class="pagination-info text-center text-gray-600 mb-6">
-        Affichage <strong class="text-gray-900 font-semibold">{{currentPage}}-{{totalPages}}</strong> sur <strong class="text-gray-900 font-semibold">{{totalJobs}}</strong> offres
+        Affichage <strong class="text-gray-900 font-semibold">{{currentPage}}-{{totalPages}}</strong> sur <strong
+          class="text-gray-900 font-semibold">{{totalJobs}}</strong> offres
       </div>
 
       <!-- Pagination Controls -->
       <div class="pagination-controls flex justify-center items-center gap-4">
 
         <!-- Previous Button -->
-        <button class="pagination-btn inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white border border-gray-200 text-gray-700 font-medium hover:bg-gray-50 hover:border-gray-300 hover:text-gray-900 shadow-sm transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed" (click)="previousPage()">
+        <button
+          class="pagination-btn inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white border border-gray-200 text-gray-700 font-medium hover:bg-gray-50 hover:border-gray-300 hover:text-gray-900 shadow-sm transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          (click)="previousPage()">
           <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polyline points="15 18 9 12 15 6"></polyline>
           </svg>
@@ -231,12 +264,15 @@
         </button>
 
         <!-- Current Page -->
-        <button class="pagination-number active px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-sky-600 text-white font-bold shadow-lg shadow-blue-500/30">
+        <button
+          class="pagination-number active px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-sky-600 text-white font-bold shadow-lg shadow-blue-500/30">
           {{currentPage}}
         </button>
 
         <!-- Next Button -->
-        <button class="pagination-btn inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white border border-gray-200 text-gray-700 font-medium hover:bg-gray-50 hover:border-gray-300 hover:text-gray-900 shadow-sm transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed" (click)="nextPage()">
+        <button
+          class="pagination-btn inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white border border-gray-200 text-gray-700 font-medium hover:bg-gray-50 hover:border-gray-300 hover:text-gray-900 shadow-sm transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          (click)="nextPage()">
           Suivant
           <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polyline points="9 18 15 12 9 6"></polyline>
