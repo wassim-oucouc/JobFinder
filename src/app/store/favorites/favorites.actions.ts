@@ -2,7 +2,6 @@ import { createAction, props } from '@ngrx/store';
 import { FavoritesOffers } from '../../core/model/FavoritesOffers';
 import { Job } from '../../core/model/Job';
 
-// Load Favorites
 export const loadFavorites = createAction(
     '[Favorites] Load Favorites',
     props<{ userId: number }>()
@@ -39,7 +38,7 @@ export const removeFavorite = createAction(
 );
 
 export const removeFavoriteSuccess = createAction(
-    '[Favorites] Remove Favorite Success',
+    '[Favorites] Remaove Favorite Success',
     props<{ offerId: number }>()
 );
 

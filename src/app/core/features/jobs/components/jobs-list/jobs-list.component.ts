@@ -76,9 +76,7 @@ export class JobsListComponent implements OnInit, OnDestroy {
     });
   }
 
-  // ── Favorites ─────────────────────────────────────────────────────────────
 
-  /** Toggle favorite: add or remove */
   toggleFavorite(job: Job): void {
     if (this.isFavorite(job.id)) {
       this.store.dispatch(FavoritesActions.removeFavorite({ offerId: job.id }));
@@ -87,14 +85,12 @@ export class JobsListComponent implements OnInit, OnDestroy {
     }
   }
 
-  /** Synchronous check used by the template */
   isFavorite(jobId: number): boolean {
     return this.favorites.some(f => f.offerId === jobId);
   }
 
 
 
-  // ── Pagination ─────────────────────────────────────────────────────────────
 
   nextPage() {
     if (this.currentPage < this.totalPages) {
@@ -114,7 +110,6 @@ export class JobsListComponent implements OnInit, OnDestroy {
     }
   }
 
-  // ── Filters & Search ───────────────────────────────────────────────────────
 
   receiveSelectedOptions(filtersValid: { company: string; location: string; level: string }) {
     if (
